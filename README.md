@@ -9,7 +9,7 @@ How to use it:
 - Clone the repo in your system.
 
 - Edit /etc/ansible/hosts with the following
-- 
+
 ```sh
 [LOG_COLLECTOR]
 #Node where logs are going to be collected
