@@ -6,21 +6,24 @@ Planed to allow support for Ubuntu.
 
 How to use it:
 
-Clone the repo in your system.
+- Clone the repo in your system.
 
-Edit /etc/ansible/hosts with the following
-
+- Edit /etc/ansible/hosts with the following
+- 
+```sh
 [LOG_COLLECTOR]
 #Node where logs are going to be collected
 192.168.1.10
+
 [OPENSTACK]
 #Openstack nodes
 192.168.1.101
+```
 
-Start installation with
-
+- Start installation with
+```sh
 ansible-playbook site.yml
-
+```
 
 Report any issues, to fix it
 
