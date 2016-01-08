@@ -1,0 +1,4 @@
+---
+# tasks file for nginx
+- include: ./centos-nginx.yml
+  when: ansible_distribution == "CentOS"

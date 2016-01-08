@@ -1,0 +1,14 @@
+---
+- name: Add Elasticsearch repository
+  template:
+    src: elasticsearch.repo.j2
+    dest: /etc/yum.repos.d/elasticsearch.repo
+- name: Install Elasticsearch
+  yum:
+    name: elasticsearch
+    state: present
+- name: Start Elasticsearch Service
+  service:
+    name: elasticsearch
+    state: started
+    enabled: yes

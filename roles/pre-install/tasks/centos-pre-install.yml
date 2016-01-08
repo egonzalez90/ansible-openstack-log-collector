@@ -1,0 +1,9 @@
+---
+# tasks file for CentOS OS
+- name: Install EPEL release and Java JRE
+  yum:
+    name: '{{ item }}'
+    state: present
+  with_items:
+    - epel-release
+    - jre

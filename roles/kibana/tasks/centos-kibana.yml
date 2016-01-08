@@ -1,0 +1,18 @@
+---
+- name: Add Kibana repository
+  template:
+    src: kibana.repo.j2
+    dest: /etc/yum.repos.d/kibana.repo
+- name: Install Kibana
+  yum:
+    name: kibana
+    state: present
+- name: Configure elasticsearch url
+  template:
+    src: kibana.yml.j2
+    dest: /opt/kibana/config/kibana.yml
+- name: Start kibana Service
+  service:
+    name: kibana
+    state: started
+    enabled: yes

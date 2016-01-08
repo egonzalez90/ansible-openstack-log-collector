@@ -1,0 +1,55 @@
+{
+  # The network section covers network configuration :)
+  "network": {
+    "servers": [ "{{ LOG_COLLECTOR_IP }}:6782" ],
+    "ssl ca": "/etc/pki/tls/certs/logstash-forwarder.crt",
+    "timeout": 15
+  },
+  # The list of files configurations
+  "files": [
+  {
+    "paths": [ "/var/log/nova/*.log"],
+    "fields": { "type": "openstack", "component":"nova" }
+   },
+  {
+    "paths": [ "/var/log/cinder/*.log"],
+    "fields": { "type": "openstack", "component":"cinder" }
+   },
+  {
+    "paths": [ "/var/log/glance/*.log"],
+    "fields": { "type": "openstack", "component":"glance" }
+   },
+  {
+    "paths": [ "/var/log/keystone/*.log"],
+    "fields": { "type": "openstack", "component":"keystone" }
+   },
+  {
+    "paths": [ "/var/log/ceilometer/*.log"],
+    "fields": { "type": "openstack", "component":"ceilometer" }
+   },
+  {
+    "paths": [ "/var/log/heat/*.log"],
+    "fields": { "type": "openstack", "component":"heat" }
+   },
+   {
+    "paths": [ "/var/log/rabbitmq/*.log"],
+    "fields": { "type": "openstack", "component":"rabbitmq" }
+   },
+   {
+    "paths": [ "/var/log/neutron/*.log"],
+    "fields": { "type": "openstack", "component":"neutron" }
+   },
+   {
+    "paths": [ "/var/log/mariadb/*.log"],
+    "fields": { "type": "openstack", "component":"mariadb" }
+   },
+   {
+    "paths": [ "/var/log/mongodb/*.log"],
+    "fields": { "type": "openstack", "component":"mongodb" }
+   },
+  {
+    "paths": [ "/var/log/swift/*.log"],
+    "fields": { "type": "openstack", "component":"swift" }
+   }
+  ]
+}

@@ -1,0 +1,47 @@
+input {
+  redis {
+    host => "{{ LOG_COLLECTOR_IP }}"
+    type => "redis-input"
+    data_type => "list"
+    key => "logstash"
+  }
+  lumberjack {
+    port => "6782"
+    ssl_certificate => "/etc/pki/tls/certs/logstash-forwarder.crt"
+    ssl_key => "/etc/pki/tls/private/logstash-forwarder.key"
+    type => "lumberjack"
+    }
+}
+filter {
+  if [type] == "syslog" {
+    grok {
+      patterns_dir => "/opt/logstash/patterns/"
+      match => { "message" => "%{SYSLOGTIMESTAMP:syslog_timestamp} %{SYSLOGHOST:syslog_hostname} %{DATA:syslog_program}(?:\[%{POSINT:syslog_pid}\])?: %{GREEDYDATA:syslog_message}" }
+      add_field => [ "received_at", "%{@timestamp}" ]
+      add_field => [ "received_from", "%{host}" ]
+    }
+    syslog_pri { }
+    date {
+      match => [ "syslog_timestamp", "MMM  d HH:mm:ss", "MMM dd HH:mm:ss" ]
+    }
+  }
+  if [type] == "openstack" {
+    grok {
+      match => [ "message","%{TIMESTAMP_ISO8601:timestamp} %{NUMBER:response} %{AUDITLOGLEVEL:level} %{NOTSPACE:module} \[%{GREEDYDATA:program}\] %{GREEDYDATA:content}"]
+    }
+    multiline {
+      negate => "false"
+      pattern => "^%{TIMESTAMP_ISO8601}%{SPACE}%{NUMBER}?%{SPACE}?TRACE"
+      what => "previous"
+      stream_identity => "%{host}.%{filename}"
+    }
+    date {
+      type => "openstack"
+      match => [ "timestamp", "yyyy-MM-dd HH:mm:ss.SSS" ]
+    }
+  }
+}
+
+output {
+  elasticsearch { host => "{{ LOG_COLLECTOR_IP }}" }
+}

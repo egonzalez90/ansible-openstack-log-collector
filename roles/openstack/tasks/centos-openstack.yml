@@ -1,0 +1,24 @@
+---
+- name: Add Logstash forwarder repo
+  template:
+    src: logstash-forwarder.repo.j2
+    dest: /etc/yum.repos.d/logstash-forwarder.repo
+- name: Install logstash-forwarder
+  yum:
+    name: logstash-forwarder
+    state: present
+- name: Copy SSL self-signed cert
+  copy:
+    src: /tmp/logstash-forwarder.crt
+    dest: /etc/pki/tls/certs/logstash-forwarder.crt
+- name: Add Logstash-forwarder configuration file
+  template:
+    src: logstash-forwarder.conf.j2
+    dest: /etc/logstash-forwarder.conf
+  notify: restart-logstash-forwarder
+- name: Start logstash-forwarder service
+  service:
+    name: logstash-forwarder
+    state: started
+    enabled: yes
+

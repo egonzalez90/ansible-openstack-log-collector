@@ -1,0 +1,4 @@
+---
+# tasks file for logstash
+- include: ./centos-logstash.yml
+  when: ansible_distribution == "CentOS"

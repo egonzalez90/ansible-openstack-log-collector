@@ -1,0 +1,4 @@
+---
+# tasks file for pre-install
+- include: ./centos-pre-install.yml
+  when: ansible_distribution == "CentOS"

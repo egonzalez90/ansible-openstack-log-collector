@@ -1,0 +1,4 @@
+---
+# tasks file for openstack
+- include: ./centos-openstack.yml
+  when: ansible_distribution == "CentOS"

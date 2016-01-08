@@ -1,0 +1,11 @@
+---
+- hosts: LOG_COLLECTOR
+  roles:
+    - { role: pre-install, sudo_user: root, sudo: yes, tags: pre-install}
+    - { role: elasticsearch, sudo_user: root, sudo: yes, tags: elasticsearch}
+    - { role: kibana, sudo_user: root, sudo: yes, tags: kibana}
+    - { role: nginx, sudo_user: root, sudo: yes, tags: nginx}
+    - { role: logstash, sudo_user: root, sudo: yes, tags: logstash}
+- hosts: OPENSTACK
+  roles:
+    - { role: openstack, sudo_user: root, sudo: yes, tags: openstack}

@@ -1,0 +1,24 @@
+---
+- name: Install Nginx and Redis
+  yum:
+    name: '{{ item }}'
+    state: present
+  with_items:
+    - nginx
+    - redis
+- name: Add kibana configuration file to nginx
+  template:
+    src: kibana.conf.j2
+    dest: /etc/nginx/conf.d/kibana.conf
+- name: Change bind IP at Redis configuration file
+  template:
+    src: redis.conf.j2
+    dest: /etc/redis.conf
+- name: Start/Enable Nginx and Redis services
+  service:
+    name: '{{ item }}'
+    state: started
+    enabled: yes
+  with_items:
+    - nginx
+    - redis
